@@ -95,6 +95,6 @@ button{
     height: 110px; 
 }
 
-.clear{
+.clear, .clearall{
     background-color: #bd4125;
 }
