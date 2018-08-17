@@ -1,5 +1,7 @@
 let userInput = '';
 let number = /[\d\.]/;
+let newDisplay = false;
+
 function add (a,b) {
 	return a+b;
 }
@@ -41,46 +43,72 @@ function operate(a,b,op){
 
 function printDisplay(){
 	let input = this.textContent;
-	display.textContent += input;
-
-	if(number.test(input))
+	
+	if(number.test(input)){
 		userInput += input;
-	else
+		if(newDisplay){
+			display.textContent = '';
+			newDisplay = false;
+		}
+	}
+	else{
 		userInput += ' ' + input + ' ';
+		if(newDisplay){
+			display.textContent = 'Ans';
+			newDisplay = false;
+		}
+	}
+
+	display.textContent += input;
 }
 
 function result(){
-	userInput = userInput.split(' ');
+	userInput = userInput.split(' ').filter(function(element) {
+		return element.length != 0
+	});
 	let total = 0;
 	let i = undefined;
 	let finished = false;
-	while(!finished){
-		if(userInput.includes('×')){
-			i = userInput.findIndex((element) => element == '×');
-		}
-		else if(userInput.includes('/')){
-			i = userInput.findIndex((element) => element == '/');
-		}
-		else if(userInput.includes('+')){
-			i = userInput.findIndex((element) => element == '+');
-		}
-		else if(userInput.includes('-')){
-			i = userInput.findIndex((element) => element == '-');
-		}
-		total = operate(parseInt(userInput[i-1]), parseInt(userInput[i+1]), userInput[i]);
-		userInput.splice(i-1, 3, total);
-		console.log(userInput);
-		if(userInput.includes(NaN)){
-			total = 'Incorrect math expression';
-			break;
-		}
-		if(userInput.length == 1)
-			finished = true;
+	if(userInput.length <= 2){
+		if(+userInput[0] != NaN && userInput.length == 1)
+			total = userInput[0];
+		else
+			total = 'Not enough data';
 	}
-	display.textContent = total;
+	else{
+		while(!finished){
+			if(userInput.includes('×')){
+				i = userInput.findIndex((element) => element == '×');
+			}
+			else if(userInput.includes('/')){
+				i = userInput.findIndex((element) => element == '/');
+			}
+			else if(userInput.includes('+')){
+				i = userInput.findIndex((element) => element == '+');
+			}
+			else if(userInput.includes('-')){
+				i = userInput.findIndex((element) => element == '-');
+			}
+			total = operate(+userInput[i-1], +userInput[i+1], userInput[i]);
+			userInput.splice(i-1, 3, total);
+			userInput.toString();
+			if(userInput.includes(NaN)){
+				total = 'Incorrect math expression';
+				finished  = true;
+			}
+			if(userInput.length == 1)
+				finished = true;
+		}
+	}
+	
+	newDisplay = true;
+	displayTotal.textContent = total;
 }
 
-const display = document.querySelector('.display p');
+const display = document.querySelector('.display #input');
+display.textContent = '';
+
+const displayTotal = document.querySelector('.display #total');
 display.textContent = '';
 
 const numbers = document.querySelectorAll('.numbers');

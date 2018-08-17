@@ -20,8 +20,8 @@ body{
 }
 
 .calculator{
-    padding: 40px 20px;
-    width: 420px;
+    padding: 15px 0;
+    width: 360px;
 
     border-radius: 10px;
     background-color: #328a77;
@@ -30,30 +30,37 @@ body{
 .input{
     display: grid;
     grid-template-columns: auto auto;
-    grid-template-rows: 80px 60px 240px;
+    grid-template-rows: auto auto auto;
     justify-content: center;
 }
 
 .display{
     grid-row: 1;
     grid-column: 1 / span 2;
-    height: 50px;
-    margin: 10px 0;
+    padding: 5px 10px;
+    margin-bottom: 10px;
     background-color: #fff;
     color: #000;
 }
 
-.display p{
-    padding: 0 10px;
+.display #input{
+    text-align: left;
+    height: 25px;
+    line-height: 25px;
+    font-size: 20px;
+    font-family: Digital, 'Courier New', Courier, monospace;
+}
+
+.display #total{
     text-align: right;
-    height: 50px;
-    line-height: 50px;
+    height: 35px;
+    line-height: 35px;
     font-size: 30px;
     font-family: Digital, 'Courier New', Courier, monospace;
 }
 
 button{
-    margin: 0 5px;
+    margin: 1px 1px;
     border: 0;
     color: #fff;
     background-color:#262626;
@@ -92,7 +99,7 @@ button{
 
 #add{
     grid-row: 4 / 5;
-    height: 110px; 
+    height: 102px; 
 }
 
 .clear, .clearall{
