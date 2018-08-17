@@ -43,23 +43,25 @@ function operate(a,b,op){
 
 function printDisplay(){
 	let input = this.textContent;
-	
+
+	if(newDisplay){
+		display.textContent = '';
+	}
 	if(number.test(input)){
-		userInput += input;
 		if(newDisplay){
-			display.textContent = '';
-			newDisplay = false;
+			userInput = '0';
 		}
+		userInput += input;
 	}
 	else{
-		userInput += ' ' + input + ' ';
-		if(newDisplay){
+		if(newDisplay && userInput != ''){
 			display.textContent = 'Ans';
-			newDisplay = false;
 		}
+		userInput += ' ' + input + ' ';
 	}
 
 	display.textContent += input;
+	newDisplay = false;
 }
 
 function result(){
@@ -91,18 +93,31 @@ function result(){
 			}
 			total = operate(+userInput[i-1], +userInput[i+1], userInput[i]);
 			userInput.splice(i-1, 3, total);
-			userInput.toString();
 			if(userInput.includes(NaN)){
-				total = 'Incorrect math expression';
+				total = 'Syntax ERROR';
 				finished  = true;
+				userInput = '';
 			}
-			if(userInput.length == 1)
+			if (userInput.length == 1)
 				finished = true;
 		}
 	}
 	
 	newDisplay = true;
 	displayTotal.textContent = total;
+	console.log(userInput);
+}
+
+function clearInput(){
+	display.textContent = '';
+	userInput = displayTotal.textContent;
+	newDisplay = true;
+}
+
+function clearEverything(){	
+	display.textContent = '';
+	userInput = '0';
+	displayTotal.textContent = '0'
 }
 
 const display = document.querySelector('.display #input');
@@ -119,3 +134,9 @@ operations.forEach(operation => operation.addEventListener('click', printDisplay
 
 const equal = document.querySelector('#equals');
 equal.addEventListener('click', result);
+
+const clear = document.querySelector('#clear');
+clear.addEventListener('click', clearInput);
+
+const clearall = document.querySelector('#clearall');
+clearall.addEventListener('click', clearEverything);
