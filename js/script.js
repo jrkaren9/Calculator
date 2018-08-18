@@ -15,6 +15,9 @@ function multiply (a,b) {
 }
 
 function divide (a,b) {
+	if(b == 0){
+		return 'Math ERROR';
+	}
     return a/b;
 }
 
@@ -93,7 +96,11 @@ function result(){
 			}
 			total = operate(+userInput[i-1], +userInput[i+1], userInput[i]);
 			userInput.splice(i-1, 3, total);
-			if(userInput.includes(NaN)){
+			if(userInput.includes('Math ERROR')){
+				finished  = true;
+				userInput = '';
+			}
+			else if(userInput.includes(NaN)){
 				total = 'Syntax ERROR';
 				finished  = true;
 				userInput = '';
@@ -105,7 +112,6 @@ function result(){
 	
 	newDisplay = true;
 	displayTotal.textContent = total;
-	console.log(userInput);
 }
 
 function clearInput(){
