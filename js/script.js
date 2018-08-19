@@ -31,6 +31,10 @@ function factorial(num) {
 	return num * factorial(num-1);
 }
 
+function square(num) {
+	return Math.sqrt(num);
+}
+
 function operate(a,b,op){
 	switch(op){
 		case '×':
@@ -41,6 +45,12 @@ function operate(a,b,op){
 			return add(a,b)
 		case '-':
 			return subtract(a,b)
+		case '^':
+			return subtract(a,b)
+		case '!':
+			return subtract(a)
+		case '√':
+			return subtract(a)
 	}
 }
 
