@@ -1,7 +1,7 @@
 let userInput = '';
 let number = /[\d\.]/;
 let newDisplay = false;
-let ANS = '';
+let ANS = '0';
 
 function add (a,b) {
 	return a+b;
@@ -78,13 +78,7 @@ function printDisplay(){
 		if(newDisplay && userInput != ''){
 			display.textContent = 'ANS';
 		}
-
-		if(this.id == 'ANS'){
-			userInput += ' ' + ANS;
-		}
-		else{
-			userInput += ' ' + this.id + ' ';
-		}
+		userInput += ' ' + this.id + ' ';
 	}
 
 	if(this.id == 'inv'){
@@ -102,8 +96,7 @@ function result(){
 	let total = 0;
 	let i = undefined;
 	let finished = false;
-	console.log(userInput);
-	if(userInput.length == 1 && +userInput[0] != NaN)
+	if(userInput.length == 1 && isNaN(+userInput[0]))
 		total = userInput[0];
 	else if(userInput.length == 2 && !(userInput.includes('sqrt') || userInput.includes('fact') || userInput.includes('inv'))){
 		total = 'Not enough data';
@@ -111,7 +104,10 @@ function result(){
 	}
 	else{
 		while(!finished){
-			if(userInput.includes('pow')){
+			if(userInput.includes('ANS')){
+				i = userInput.findIndex((element) => element == 'ANS');
+			}
+			else if(userInput.includes('pow')){
 				i = userInput.findIndex((element) => element == 'pow');
 			}
 			else if(userInput.includes('sqrt')){
@@ -137,7 +133,11 @@ function result(){
 			}
 			
 			let op = userInput[i];
-			if(op == 'inv' || op == 'fact'){
+			if(op == 'ANS'){
+				total = ANS;
+				userInput.splice(i, 1, total);
+			}
+			else if(op == 'inv' || op == 'fact'){
 				total = operate(op, +userInput[i-1]);
 				userInput.splice(i-1, 2, total);
 			}
@@ -149,20 +149,21 @@ function result(){
 				total = operate(op, +userInput[i-1], +userInput[i+1]);
 				userInput.splice(i-1, 3, total);
 			}
-			
+
 			if(userInput.includes('Math ERROR')){
 				finished  = true;
 				userInput = '';
 			}
-			else if(userInput.includes(NaN) || userInput.includes(undefined)){
+			else if((userInput.includes(NaN) && !(userInput.includes('ANS'))) || userInput.includes(undefined)){
 				total = 'Syntax ERROR';
 				finished  = true;
 				userInput = '';
 			}
 			else if(userInput.length == 1){
+				userInput = 'ANS';
 				ANS = total;
 				finished = true;
-			}				
+			}			
 		}
 	}
 
@@ -183,7 +184,6 @@ function clearEverything(){
 }
 
 function delInput(){
-
 	if(userInput != ''){
 		userInput = userInput.split(' ').filter(element => element != '');
 		let erased = userInput.pop();
@@ -194,6 +194,9 @@ function delInput(){
 		let delDisplay = display.innerHTML;
 		if (erased == 'inv'){
 			delDisplay = delDisplay.slice(0, -10);
+		}
+		else if(erased == 'ANS'){
+			delDisplay = delDisplay.slice(0, -3);
 		}
 		else{
 			delDisplay = delDisplay.slice(0, -1);
