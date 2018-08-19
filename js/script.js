@@ -1,6 +1,7 @@
 let userInput = '';
 let number = /[\d\.]/;
 let newDisplay = false;
+let ANS = '';
 
 function add (a,b) {
 	return a+b;
@@ -66,6 +67,7 @@ function printDisplay(){
 	if(newDisplay){
 		display.innerHTML = '';
 	}
+
 	if(number.test(input) && input != 'x-1'){
 		if(newDisplay){
 			userInput = '';
@@ -74,18 +76,22 @@ function printDisplay(){
 	}
 	else{
 		if(newDisplay && userInput != ''){
-			display.innerHTML = 'Ans';
+			display.innerHTML = 'ANS';
 		}
-		userInput += ' ' + this.id + ' ';
+
+		if(input == 'ANS')
+			userInput += ' ' + ANS;
+		else
+			userInput += ' ' + this.id + ' ';
 	}
-	console.log(userInput);
+
 	if(this.id == 'inv'){
 		display.innerHTML += '<sup>-1</sup>';
 	}
 	else{
 		display.innerHTML += input;
 	}
-	console.log(display.innerHTML);
+
 	newDisplay = false;
 }
 
@@ -98,8 +104,10 @@ function result(){
 	let finished = false;
 	if(userInput.length == 1 && +userInput[0] != NaN)
 		total = userInput[0];
-	else if(userInput.length == 2 && !(userInput.includes('sqrt') || userInput.includes('fact') || userInput.includes('inv')))
+	else if(userInput.length == 2 && !(userInput.includes('sqrt') || userInput.includes('fact') || userInput.includes('inv'))){
 		total = 'Not enough data';
+		userInput = '';
+	}
 	else{
 		while(!finished){
 			if(userInput.includes('pow')){
@@ -150,12 +158,13 @@ function result(){
 				finished  = true;
 				userInput = '';
 			}
-			if (userInput.length == 1)
+			else if(userInput.length == 1){
+				ANS = total;
 				finished = true;
-			console.log(userInput);
+			}				
 		}
 	}
-	
+
 	newDisplay = true;
 	displayTotal.textContent = total;
 }

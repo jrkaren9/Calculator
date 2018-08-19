@@ -173,10 +173,6 @@ button:active {
 }
 
 .clear{
-    background-color: #bd4125;
-}
-
-.clear{
 	box-shadow: inset 0px 1px 0px 0px #d84e2f;
 	background: linear-gradient(to bottom, #bd4125 5%, #8d2e19 100%);
 	background-color: #bd4125;
