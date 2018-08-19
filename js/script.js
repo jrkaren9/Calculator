@@ -65,7 +65,7 @@ function printDisplay(){
 	let input = this.textContent;
 
 	if(newDisplay){
-		display.innerHTML = '';
+		display.textContent = '';
 	}
 
 	if(number.test(input) && input != 'x-1'){
@@ -76,13 +76,15 @@ function printDisplay(){
 	}
 	else{
 		if(newDisplay && userInput != ''){
-			display.innerHTML = 'ANS';
+			display.textContent = 'ANS';
 		}
 
-		if(input == 'ANS')
+		if(this.id == 'ANS'){
 			userInput += ' ' + ANS;
-		else
+		}
+		else{
 			userInput += ' ' + this.id + ' ';
+		}
 	}
 
 	if(this.id == 'inv'){
@@ -96,12 +98,11 @@ function printDisplay(){
 }
 
 function result(){
-	userInput = userInput.split(' ').filter(function(element) {
-		return element.length != 0
-	});
+	userInput = userInput.split(' ').filter(element => element != '');
 	let total = 0;
 	let i = undefined;
 	let finished = false;
+	console.log(userInput);
 	if(userInput.length == 1 && +userInput[0] != NaN)
 		total = userInput[0];
 	else if(userInput.length == 2 && !(userInput.includes('sqrt') || userInput.includes('fact') || userInput.includes('inv'))){
@@ -178,7 +179,31 @@ function clearInput(){
 function clearEverything(){	
 	display.textContent = '';
 	userInput = '';
-	displayTotal.textContent = '0'
+	displayTotal.textContent = '0';
+}
+
+function delInput(){
+
+	if(userInput != ''){
+		userInput = userInput.split(' ').filter(element => element != '');
+		let erased = userInput.pop();
+		if(!isNaN(erased)){
+			erased = erased.slice(0, -1);
+			userInput.push(erased)
+		}
+		let delDisplay = display.innerHTML;
+		if (erased == 'inv'){
+			delDisplay = delDisplay.slice(0, -10);
+		}
+		else{
+			delDisplay = delDisplay.slice(0, -1);
+		}
+		
+		display.innerHTML = delDisplay;
+		userInput = userInput.join(' ');
+
+		console.log(userInput);
+	}
 }
 
 const display = document.querySelector('.display #input');
@@ -201,3 +226,6 @@ clear.addEventListener('click', clearInput);
 
 const clearall = document.querySelector('#clearall');
 clearall.addEventListener('click', clearEverything);
+
+const del = document.querySelector('#del');
+del.addEventListener('click', delInput);
