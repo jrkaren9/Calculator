@@ -12,6 +12,11 @@ body{
     src: url("fonts/digital-7\ \(mono\).ttf");
 }
 
+sup{
+    vertical-align: super;
+    line-height: 0;
+}
+
 .container{
     height: 100%;
     display: grid;
@@ -68,13 +73,29 @@ button{
     margin: 1px 1px;
     border: 0;
     color: #fff;
-    background-color:#262626;
     width: 80px;
     height: 50px;
     font-size: 30px;
 }
 
+.operation, #equals {
+	box-shadow: inset 0px 1px 0px 0px #727272;
+	background: linear-gradient(to bottom, #5a5a5a 5%, #262626 100%);
+	background-color: #5a5a5a;
+	border-radius: 6px;
+	border: 1px solid #2e2e2e;
+	text-shadow:0px 1px 0px #161616;
+}
 
+.operation:hover, #equals:hover {
+	background:linear-gradient(to bottom, #262626 5%, #5a5a5a 100%);
+	background-color:#262626;
+}
+
+button:active {
+	position:relative;
+	top:1px;
+}
 
 .top{
     grid-area: 2 / 1 ;
@@ -100,8 +121,18 @@ button{
     align-items: center;
 }
 
-.numbers{
-    background-color: #5c5c5c;
+.numbers {
+	box-shadow: inset 0px 1px 0px 0px #727272;
+	background: linear-gradient(to bottom, #8b8b8b 5%, #5c5c5c 100%);
+	background-color:#3a3a3a;
+	border-radius: 6px;
+	border: 1px solid #616161;
+	text-shadow:0px 1px 0px #4d4d4d;
+}
+
+.numbers:hover {
+	background:linear-gradient(to bottom, #5c5c5c 5%, #8b8b8b 100%);
+	background-color:#5c5c5c;
 }
 
 #mult{
@@ -121,7 +152,7 @@ button{
     grid-area: 1 / 2 / span 1 / span 1;
 }
 
-#inverse sup{
+#inv sup{
     font-size: 14px;
 }
 
@@ -143,4 +174,18 @@ button{
 
 .clear{
     background-color: #bd4125;
+}
+
+.clear{
+	box-shadow: inset 0px 1px 0px 0px #d84e2f;
+	background: linear-gradient(to bottom, #bd4125 5%, #8d2e19 100%);
+	background-color: #bd4125;
+	border-radius: 6px;
+	border: 1px solid #97331c;
+	text-shadow:0px 1px 0px #5f1f11;
+}
+
+.clear:hover{
+	background:linear-gradient(to bottom, #8d2e19 5%, #bd4125 100%);
+	background-color:#8d2e19;
 }
