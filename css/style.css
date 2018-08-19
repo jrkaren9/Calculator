@@ -45,10 +45,15 @@ body{
 
 .display #input{
     text-align: left;
-    height: 25px;
-    line-height: 25px;
+    height: 30px;
+    line-height: 30px;
+    
     font-size: 20px;
     font-family: Digital, 'Courier New', Courier, monospace;
+}
+
+#input sup{
+    font-size: 14px;
 }
 
 .display #total{
@@ -99,11 +104,11 @@ button{
     background-color: #5c5c5c;
 }
 
-#multiple{
+#mult{
     grid-area: 2 / 1 / span 1 / span 1;
 }
 
-#subtract{
+#sub{
     grid-area: 3 / 1 / span 1 / span 1;
 }
 
@@ -120,15 +125,15 @@ button{
     font-size: 14px;
 }
 
-#power{
+#pow{
     grid-area: 2 / 2 / span 1 / span 1;
 }
 
-#square{
+#sqrt{
     grid-area: 3 / 2 / span 1 / span 1;
 }
 
-#factorial{
+#fact{
     grid-area: 4 / 2 / span 1 / span 1;
 }
 

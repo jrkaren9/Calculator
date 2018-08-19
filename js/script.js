@@ -22,7 +22,7 @@ function divide (a,b) {
 }
 
 function power(a,b) {
-	return a^b;
+	return Math.pow(a,b);
 }
 
 function factorial(num) {
@@ -35,22 +35,28 @@ function square(num) {
 	return Math.sqrt(num);
 }
 
-function operate(a,b,op){
+function inverse(num) {
+	return 1/num;
+}
+
+function operate(op, a,b){
 	switch(op){
-		case '×':
+		case 'mult':
 			return multiply(a,b)
-		case '/':
+		case 'div':
 			return divide(a,b)
-		case '+':
+		case 'add':
 			return add(a,b)
-		case '-':
+		case 'sub':
 			return subtract(a,b)
-		case '^':
-			return subtract(a,b)
-		case '!':
-			return subtract(a)
-		case '√':
-			return subtract(a)
+		case 'pow':
+			return power(a,b)
+		case 'fact':
+			return factorial(a)
+		case 'sqrt':
+			return square(a)
+		case 'inv':
+			return inverse(a)
 	}
 }
 
@@ -58,22 +64,28 @@ function printDisplay(){
 	let input = this.textContent;
 
 	if(newDisplay){
-		display.textContent = '';
+		display.innerHTML = '';
 	}
-	if(number.test(input)){
+	if(number.test(input) && input != 'x-1'){
 		if(newDisplay){
-			userInput = '0';
+			userInput = '';
 		}
 		userInput += input;
 	}
 	else{
 		if(newDisplay && userInput != ''){
-			display.textContent = 'Ans';
+			display.innerHTML = 'Ans';
 		}
-		userInput += ' ' + input + ' ';
+		userInput += ' ' + this.id + ' ';
 	}
-
-	display.textContent += input;
+	console.log(userInput);
+	if(this.id == 'inv'){
+		display.innerHTML += '<sup>-1</sup>';
+	}
+	else{
+		display.innerHTML += input;
+	}
+	console.log(display.innerHTML);
 	newDisplay = false;
 }
 
@@ -84,39 +96,63 @@ function result(){
 	let total = 0;
 	let i = undefined;
 	let finished = false;
-	if(userInput.length <= 2){
-		if(+userInput[0] != NaN && userInput.length == 1)
-			total = userInput[0];
-		else
-			total = 'Not enough data';
-	}
+	if(userInput.length == 1 && +userInput[0] != NaN)
+		total = userInput[0];
+	else if(userInput.length == 2 && !(userInput.includes('sqrt') || userInput.includes('fact') || userInput.includes('inv')))
+		total = 'Not enough data';
 	else{
 		while(!finished){
-			if(userInput.includes('×')){
-				i = userInput.findIndex((element) => element == '×');
+			if(userInput.includes('pow')){
+				i = userInput.findIndex((element) => element == 'pow');
 			}
-			else if(userInput.includes('/')){
-				i = userInput.findIndex((element) => element == '/');
+			else if(userInput.includes('sqrt')){
+				i = userInput.findIndex((element) => element == 'sqrt');
 			}
-			else if(userInput.includes('+')){
-				i = userInput.findIndex((element) => element == '+');
+			else if(userInput.includes('inv')){
+				i = userInput.findIndex((element) => element == 'inv');
 			}
-			else if(userInput.includes('-')){
-				i = userInput.findIndex((element) => element == '-');
+			else if(userInput.includes('fact')){
+				i = userInput.findIndex((element) => element == 'fact');
 			}
-			total = operate(+userInput[i-1], +userInput[i+1], userInput[i]);
-			userInput.splice(i-1, 3, total);
+			else if(userInput.includes('mult')){
+				i = userInput.findIndex((element) => element == 'mult');
+			}
+			else if(userInput.includes('div')){
+				i = userInput.findIndex((element) => element == 'div');
+			}
+			else if(userInput.includes('add')){
+				i = userInput.findIndex((element) => element == 'add');
+			}
+			else if(userInput.includes('sub')){
+				i = userInput.findIndex((element) => element == 'sub');
+			}
+			
+			let op = userInput[i];
+			if(op == 'inv' || op == 'fact'){
+				total = operate(op, +userInput[i-1]);
+				userInput.splice(i-1, 2, total);
+			}
+			else if(op == 'sqrt'){
+				total = operate(op, +userInput[i+1]);
+				userInput.splice(i, 2, total);
+			}
+			else{
+				total = operate(op, +userInput[i-1], +userInput[i+1]);
+				userInput.splice(i-1, 3, total);
+			}
+			
 			if(userInput.includes('Math ERROR')){
 				finished  = true;
 				userInput = '';
 			}
-			else if(userInput.includes(NaN)){
+			else if(userInput.includes(NaN) || userInput.includes(undefined)){
 				total = 'Syntax ERROR';
 				finished  = true;
 				userInput = '';
 			}
 			if (userInput.length == 1)
 				finished = true;
+			console.log(userInput);
 		}
 	}
 	
@@ -132,7 +168,7 @@ function clearInput(){
 
 function clearEverything(){	
 	display.textContent = '';
-	userInput = '0';
+	userInput = '';
 	displayTotal.textContent = '0'
 }
 
