@@ -204,13 +204,11 @@ function delInput(){
 		display.innerHTML = delDisplay;
 		userInput = userInput.join(' ');
 
-		console.log(userInput);
 	}
 }
 
 function supportKeyboard(e) {
 	let key = e.key;
-	console.log(e.code);
 
 	if(!isNaN(key) || key == '.'){
 		numbers.forEach(number => {
