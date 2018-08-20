@@ -1,5 +1,4 @@
 let userInput = '';
-let number = /[\d\.]/;
 let newDisplay = false;
 let ANS = '0';
 
@@ -68,7 +67,7 @@ function printDisplay(){
 		display.textContent = '';
 	}
 
-	if(number.test(input) && input != 'x-1'){
+	if((!isNaN(input) || input == '.') && input != 'x-1'){
 		if(newDisplay){
 			userInput = '';
 		}
@@ -96,7 +95,7 @@ function result(){
 	let total = 0;
 	let i = undefined;
 	let finished = false;
-	if(userInput.length == 1 && isNaN(+userInput[0]))
+	if(userInput.length == 1 && !isNaN(+userInput[0]))
 		total = userInput[0];
 	else if(userInput.length == 2 && !(userInput.includes('sqrt') || userInput.includes('fact') || userInput.includes('inv'))){
 		total = 'Not enough data';
@@ -209,6 +208,36 @@ function delInput(){
 	}
 }
 
+function supportKeyboard(e) {
+	let key = e.key;
+	console.log(e.code);
+
+	if(!isNaN(key) || key == '.'){
+		numbers.forEach(number => {
+			if(number.textContent == key)
+				number.click();
+		});
+	}
+	else if(key=='+' || key=='-' || key=='/' || key=='^' || key=='!'){
+		operations.forEach(operation => {
+			if(operation.textContent == key)
+				operation.click();
+		});
+	}
+	else if(key=='*'){
+		operations.forEach(operation => {
+			if(operation.id == 'mult')
+				operation.click();
+		});
+	}
+	else if(key=='Enter' || key=='='){
+		equal.click();
+	}
+	else if(key === "Backspace" || key === "Delete"){
+		del.click();
+	}
+}
+
 const display = document.querySelector('.display #input');
 display.textContent = '';
 
@@ -232,3 +261,5 @@ clearall.addEventListener('click', clearEverything);
 
 const del = document.querySelector('#del');
 del.addEventListener('click', delInput);
+
+window.addEventListener('keypress', supportKeyboard);
